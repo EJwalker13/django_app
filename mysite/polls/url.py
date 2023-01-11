@@ -6,7 +6,7 @@ from . import views #Imported and accessed the polls.views file
 ##and prints my written string variable on the polls website by following the path.
 urlpatterns = [
     path('', views.index, name='index'),
-    # this links the poll's identification number to the 
-    path('<int:question_id>/', views.detail, name='detail'), 
-
+    path('<int:question_id>/', views.detail, name='detail'), # this path connects the detail function in views.py 
+    path('<int:question_id>/results/', views.results, name='results'), # this path connects the results function in views.py 
+    path('<int:question_id>/vote/', views.vote, name='vote'), # this path connects the vote function in views.py 
 ]
