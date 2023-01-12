@@ -1,15 +1,15 @@
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 from django.http import Http404
-from django.shortcuts import render
-
-# Imported the class HttpResponse from the django and http modules
-from django.http import HttpResponse
-
-from .models import Question
+from .models import Choice, Question
 
 #This is a function that is indexing the variable onto the poll website so when i follow
 ##the link this str will appear on the webpage
 def index(request):
-    return HttpResponse("Hello, world. Welcome to Eli's polls index.")
+    latest_question_list = Question.objects.order_by('-pub_date')[:5] #this orders the fields in the 'Question' model by the publication date 
+    context = {'latest_question_list': latest_question_list}
+    return render(request, 'polls/index.html', context)
 
 def detail(request, question_id):
     try:
@@ -23,9 +23,17 @@ def results(request, question_id):
     return HttpResponse(response % question_id)
 
 def vote(request, question_id):
-    return HttpResponse("You're voting on question %s." % question_id)
+    question = get_object_or_404(Question, pk=question_id)
+    try:
+        selected_choice = question.choices_set.get(pk=request.POST['choice'])
+    except (KeyError, Choice.DoesNotExist):
+        return render(request, 'polls/detail.html', {
+            'question' : question,
+            'error_message' : "You didn't select a choice.",
+        })
+    else:
+        selected_choice.votes += 1
+        selected_choice.save()
 
-def index(request):
-    latest_question_list = Question.objects.order_by('-pub_date')[:5] #this orders the fields in the 'Question' model by the publication date 
-    context = {'latest_question_list': latest_question_list}
-    return render(request, 'polls/index.html', context)
+        return HttpResponseRedirect(reverse('polls:results', args=(question_id,)))
+
