@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 # Imported the class HttpResponse from the django and http modules
 from django.http import HttpResponse
+from django.template import loader
 
 from .models import Question
 
@@ -22,5 +23,8 @@ def vote(request, question_id):
 
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5] #this orders the fields in the 'Question' model by the publication date 
-    output = ', '.join([q.question_text for q in latest_question_list]) #this produces a joined output of the question's text with the latest question list
-    return HttpResponse(output) #then returns the output variable above to the class HttpResponse 
+    template = loader.get_template('polls/index.html')
+    context = {
+        'latest_question_list': latest_question_list,
+    }
+    return HttpResponse(template.render(context, request))
