@@ -18,10 +18,6 @@ from django.urls import path
 from django.urls import include, path #This connects my polls URL.py to the main URL webage http://127.0.0.1:8000/
 
 urlpatterns = [
-    path('admin/', admin.site.urls), #Newly written variable containing the path to access the admin module and properties
-]
-
-urlpatterns = [
     path('polls/', include('polls.url')),#this function is calling my written function configured via the urls in polls.url/polls.views.py to be plug into the admin site
     path('admin/', admin.site.urls), #this new variable connects the function previously written above then connects this with the index function from polls.url/polls.views.py 
 ]

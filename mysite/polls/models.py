@@ -8,7 +8,7 @@ from django.utils import timezone
 #Created a class called questions ("Model" is a class)
 class Question(models.Model):
     question_text = models.CharField(max_length=200) #this field instance defines the character length (or data) for the questions' text within the class
-    pub_date = models.DateTimeField('date published') #this field instance adds a field for the date the question was published
+    pub_date = models.DateTimeField('date time') #this field instance adds a field for the date the question was published
 
     def __str__(self):
         return self.question_text #this function returns the str found in the object question_text
