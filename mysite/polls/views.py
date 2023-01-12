@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.http import Http404
-from .models import Choice, Question
+from .models import Choices, Question
 
 #This is a function that is indexing the variable onto the poll website so when i follow
 ##the link this str will appear on the webpage
