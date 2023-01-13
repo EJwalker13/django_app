@@ -14,10 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from django.urls import include, path #This connects my polls URL.py to the main URL webage http://127.0.0.1:8000/
+from django.urls import include, re_path
+
 
 urlpatterns = [
-    path('polls/', include('polls.urls')),#this function is calling my written function configured via the urls in polls.url/polls.views.py to be plug into the admin site
-    path('admin/', admin.site.urls), #this new variable connects the function previously written above then connects this with the index function from polls.url/polls.views.py 
+    re_path('polls/', include('polls.urls', namespace="polls")),
+    re_path('admin/', admin.site.urls),
 ]
